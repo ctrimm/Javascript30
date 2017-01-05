@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Javascript Drum Kit - Day 01 - Javascript 30</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <div class="keys">
+        <div data-key-value="81" class="key">
+            <key>Q</key>
+            <span class="sound"></span>
+        </div>
+        <div data-key-value="87" class="key">
+            <key>W</key>
+            <span class="sound"></span>
+        </div>
+        <div data-key-value="69" class="key">
+            <key>E</key>
+            <span class="sound"></span>
+        </div>
+        <div data-key-value="82" class="key">
+            <key>R</key>
+            <span class="sound"></span>
+        </div>
+        <div data-key-value="84" class="key">
+            <key>T</key>
+            <span class="sound"></span>
+        </div>
+        <div data-key-value="89" class="key">
+            <key>Y</key>
+            <span class="sound"></span>
+        </div>
+        <div data-key-value="85" class="key">
+            <key>U</key>
+            <span class="sound"></span>
+        </div>
+        <div data-key-value="73" class="key">
+            <key>I</key>
+            <span class="sound"></span>
+        </div>
+        <div data-key-value="79" class="key">
+            <key>O</key>
+            <span class="sound"></span>
+        </div>
+        <div data-key-value="80" class="key">
+            <key>P</key>
+            <span class="sound"></span>
+        </div>
+    </div>
+
+<audio data-key-value="81" src="sounds/clap.wav"></audio>
+<audio data-key-value="87" src="sounds/clap.wav"></audio>
+<audio data-key-value="69" src="sounds/clap.wav"></audio>
+<audio data-key-value="82" src="sounds/clap.wav"></audio>
+<audio data-key-value="84" src="sounds/clap.wav"></audio>
+<audio data-key-value="89" src="sounds/clap.wav"></audio>
+<audio data-key-value="85" src="sounds/clap.wav"></audio>
+<audio data-key-value="79" src="sounds/clap.wav"></audio>
+<audio data-key-value="80" src="sounds/clap.wav"></audio>
+
+
+<script>
+    function playSound(e) {
+        const audio = document.querySelector(`audio[data-key-value="${e.keyCode}"]`);
+        const key = document.querySelector(`.key[data-key-value="${e.keyCode}"]`);
+        console.log(key);
+        if(!audio) return;
+        audio.currentTime = 0; //will rewind clip to beginning
+        audio.play();
+        key.classList.add('playing');
+
+    };
+
+    function removeTransition(e) {
+        if(e.propertyName !== 'transform') return; //skip if not a transition
+        this.classList.remove('playing');
+    }
+
+    const keys = document.querySelectorAll('.key');
+    keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+    window.addEventListener('keydown',playSound);
+</script>
+
+</body>
+</html>
