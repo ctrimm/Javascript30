@@ -47,4 +47,22 @@ body {
     background: black;
     position: absolute;
     top: 50%;
+    transform-origin: 100%; /* rotate around the far right point on the hand */
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
+    -ms-transform: rotate(90deg); /* IE 9 */
+    transition: all 0.2s;
+    transition-timing-function: cubic-bezier(0, 2.93, 0.23, 0.95);
+}
+
+.hour-hand {
+    width: 40%;
+    height: 18px;
+    margin: 0 0 5px 50px;
+}
+
+.minute-hand {
+    width: 45%;
+    height: 10px;
+    margin: 0 0 5px 27px;
 }
