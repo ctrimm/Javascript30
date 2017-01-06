@@ -11,13 +11,13 @@ body,html {
 .keys {
   display: flex;
   flex: 1;
-  min-height: 100vh;
+  min-height: 35vh;
   align-items: center;
   justify-content: center;
 }
 
 .key {
-  border: .4rem solid black;
+  border: .4rem solid white;
   border-radius: .5rem;
   margin: 1rem;
   font-size: 1.5rem;
@@ -28,15 +28,16 @@ body,html {
   color: white;
   background: rgba(0,0,0,0.4);
   text-shadow: 0 0 .5rem black;
-  .space {
-    width: 50rem;
-  }
+}
+
+.key.space {
+  width: 50rem;
 }
 
 .playing {
   transform: scale(1.1);
   border-color: #ffc600;
-  box-shadow: 0 0 1rem #ffc600;
+  box-shadow: 0 4px 2px -2px #ffc600;
 }
 
 kbd {
