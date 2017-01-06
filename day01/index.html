@@ -11,15 +11,11 @@
     <div class="keys">
         <div data-key-value="81" class="key">
             <key>Q</key>
-            <span class="sound"></span>
+            <span class="sound">Clap</span>
         </div>
         <div data-key-value="87" class="key">
             <key>W</key>
-            <span class="sound"></span>
-        </div>
-        <div data-key-value="69" class="key">
-            <key>E</key>
-            <span class="sound"></span>
+            <span class="sound">Boom</span>
         </div>
         <div data-key-value="82" class="key">
             <key>R</key>
@@ -49,11 +45,16 @@
             <key>P</key>
             <span class="sound"></span>
         </div>
+        <br>
+        <div data-key-value="32" class="key space">
+            <key>SPACE</key>
+            <span class="sound">Kick</span>
+        </div>
     </div>
 
 <audio data-key-value="81" src="sounds/clap.wav"></audio>
-<audio data-key-value="87" src="sounds/clap.wav"></audio>
-<audio data-key-value="69" src="sounds/clap.wav"></audio>
+<audio data-key-value="87" src="sounds/boom.wav"></audio>
+<audio data-key-value="32" src="sounds/kick.wav"></audio>
 <audio data-key-value="82" src="sounds/clap.wav"></audio>
 <audio data-key-value="84" src="sounds/clap.wav"></audio>
 <audio data-key-value="89" src="sounds/clap.wav"></audio>
@@ -66,7 +67,7 @@
     function playSound(e) {
         const audio = document.querySelector(`audio[data-key-value="${e.keyCode}"]`);
         const key = document.querySelector(`.key[data-key-value="${e.keyCode}"]`);
-        console.log(key);
+
         if(!audio) return;
         audio.currentTime = 0; //will rewind clip to beginning
         audio.play();
