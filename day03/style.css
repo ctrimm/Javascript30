@@ -1,0 +1,21 @@
+:root {
+    --base: #aaffaf;
+    --spacing: 10px;
+    --blur: 10px;
+}
+
+img {
+    padding: var(--spacing);
+    background: var(--base);
+    filter: blur(var(--blur));
+}
+
+.highlight {
+    color: var(--base);
+}
+
+/* Miscellaneous Styles */
+body {
+    text-align: center;
+    font-family: Helvetica;
+}

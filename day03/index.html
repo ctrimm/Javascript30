@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Playing with CSS Variables with JS.</h1>
+    <p class="highlight">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    
+    <div class="controller">
+        <label for="base">Base Color:</label>
+        <input type="color" name="base" value="#aaffaf">
+        <label for="spacing">Spacing:</label>
+        <input type="range" name="spacing" min="0" max="200" value="10" data-sizing="px">
+        <label for="blur">Blur:</label>
+        <input type="range" name="blur" min="0" max="25" value="10" data-sizing="px">
+    </div>
+
+    <img src="http://unsplash.it/800/500?image=899">
+</body>
+
+<script>
+    const inputs = document.querySelectorAll('.controller input');
+    function handleUpdate() {
+        const suffix = this.dataset.sizing || '';
+        document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
+
+    }
+
+    inputs.forEach(input => input.addEventListener('change', handleUpdate));
+    inputs.forEach(input => input.addEventListener('mousemove', handleUpdate));
+</script>
+
+</html>
