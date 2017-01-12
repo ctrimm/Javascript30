@@ -1,13 +1,15 @@
 :root {
     --base: #aaffaf;
-    --spacing: 10px;
-    --blur: 10px;
+    --blur: 5px;
+    --margin: 10px;
+    --padding: 10px;
 }
 
 img {
-    padding: var(--spacing);
     background: var(--base);
     filter: blur(var(--blur));
+    margin: var(--margin);
+    padding: var(--padding);
 }
 
 .highlight {
