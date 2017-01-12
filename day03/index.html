@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Javascript Day 03 - CSS Variables w/ Javascript</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Playing with CSS Variables <span class="highlight">with JS</span>.</h1>
+    
+    <div class="controller">
+        <label for="base">Base Color:</label>
+        <input type="color" name="base" value="#aaffaf">
+        <label for="padding">Padding:</label>
+        <input type="range" name="padding" min="0" max="200" value="10" data-sizing="px">
+        <label for="margin">Margin:</label>
+        <input type="range" name="margin" min="0" max="200" value="10" data-sizing="px">
+        <label for="blur">Blur:</label>
+        <input type="range" name="blur" min="0" max="25" value="5" data-sizing="px">
+    </div>
+
+    <img src="http://unsplash.it/800/500?image=1053">
+</body>
+
+<script>
+    const inputs = document.querySelectorAll('.controller input');
+
+    function handleUpdate() {
+        const suffix = this.dataset.sizing || '';
+        document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
+    }
+
+    inputs.forEach(input => input.addEventListener('change', handleUpdate));
+    inputs.forEach(input => input.addEventListener('mousemove', handleUpdate));
+</script>
+
+</html>
