@@ -29,11 +29,27 @@
         console.log(cities);
     });
 
+    // ES6 Version
+    // fetch(citiesRawData).then(blob => { //this gets the data from the endpoint above
+    //     blob.json().then(data => {
+    //         data.forEach(city => {
+    //             cities.push(city);
+    //         });
+    //     });
+    //     console.log(cities);
+    // });
+
     function findMatches(wordToMatch, cities) {
         return cities.filter(function(place) {
             const regex = new RegExp(wordToMatch, 'gi'); // g is global and i is insenstive
             return place.city.match(regex) || place.state.match(regex); //check if city OR state match
         });
+
+        // ES6 Version
+        // return cities.filter(place => {
+        //     const regex = new RegExp(wordToMatch, 'gi'); // g is global and i is insenstive
+        //     return place.city.match(regex) || place.state.match(regex); //check if city OR state match
+        // });
     }
 
     function displayMatches() {
@@ -46,6 +62,16 @@
                 </li>
             `;
         }).join(''); //turn it from an array to a string
+
+        // ES6 Version
+        // const html = matchArray.map(place => {
+        //     return `
+        //         <li>
+        //             <span class="name">${place.city}, ${place.state}</span>
+        //             <span class="population">${place.population}</span>
+        //         </li>
+        //     `;
+        // }).join(''); //turn it from an array to a string
         suggestions.innerHTML = html;
     }
 
