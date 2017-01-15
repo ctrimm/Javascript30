@@ -37,6 +37,8 @@
         context.stroke();
         lastX = e.offsetX;
         lastY = e.offsetY;
+        //ES6 destructuring of the above assignment
+        // [lastX, lastY] = [e.offsetX, e.offsetY];
 
         hue++;
         if(hue >= 360) hue = 0;
@@ -50,9 +52,6 @@
         } else {
             context.lineWidth--;
         }
-
-        //ES6 destructuring
-        // [lastX, lastY] = [e.offsetX, e.offsetY];
     }
 
     canvas.addEventListener('mousemove', draw);
@@ -72,7 +71,6 @@
     // canvas.addEventListener('mousedown', () => isDrawing = true);
     // canvas.addEventListener('mousedown', () => isDrawing = false);
     // canvas.addEventListener('mousedown', () => isDrawing = true);
-    
 
 </script>
 
