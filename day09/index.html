@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Day 09 - Must Know Dev Tool Tricks</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+This was a pretty straight forward lesson, not much to be gleaned by looking at the code here.
+<br>
+What I learned:
+<ul>
+    <li onClick="colorizeResize()" id="colorizeResize">Click this to make Blue</li>
+</ul>
+
+<script>
+    const dogs = [{ name: 'Curly', age: 2}, { name: 'Lambeau', age: 8}];
+
+    function colorizeResize() {
+        const li = document.querySelector('#colorizeResize');
+        li.style.color = '#4286f4';
+        li.style.fontSize = '50px';
+        console.log('Inspect the Dom & select Break On... > Attribute Modifications.');
+        console.log('This will add a breakpoint & pause execution.');
+    }
+
+    // CONSOLE.LOG() FUNCTION
+    // Regular
+    console.log("Hello, it's me.");
+
+    // Interpolated
+    console.log('Hello, I am a %s string', 'variable');
+    //ES6 Interpolation
+    const string = 'har har ahr';
+    console.log(`Hello, I am a ${string}`);
+
+    // Styled Console Output
+    console.log("%cGO PACK GO!", 'font-size: 52px; background: green; color: gold;');
+
+    // Console warning
+    console.warn('Oh No!');
+
+    // Console error
+    console.error('Oh shit');
+
+    // Console info
+    console.info('Hippos are the most dangerous animal in the wild');
+
+    // Console Assert
+    const li = document.querySelector('li');
+    console.assert(1 === 2, 'This is incorrect');
+    console.assert(1 === 1, 'This is correct');
+    console.assert(li.classList.contains('ouch'), 'That is wrong');
+
+    // Console clear
+    // console.clear();
+    
+    // Viewing DOM Elements
+    console.log(li);
+    console.dir(li); //allows you to see all properties and methods on that element
+
+    // Grouping things together
+    console.clear();
+    dogs.forEach( dog => {
+        console.group(`${dog.name}`);
+        console.log(`This is ${dog.name}`);
+        console.log(`${dog.name} is ${dog.age} years old`);
+        console.log(`${dog.name} is ${dog.age * 7} dog years`);
+        console.groupEnd('${dog.name}');
+    });
+
+    // Console Count will tell you the # of times you use anything.
+    console.count('Cory');
+    console.count('Cory');
+    console.count('Joe');
+    console.count('Joe');
+    console.count('Cory');
+    console.count('Joe');
+    console.count('Cory');
+    console.count('Cory');
+    console.count('Joe');
+    console.count('Joe');
+    console.count('Joe');
+
+    // Console Time will tell you how long something takes to run.
+    console.time('fetching data');
+    fetch('https://api.github.com/users/ctrimm')
+    .then(function(data) {
+        return data.json();
+    }).then(function(data) {
+        console.timeEnd('fetching data');
+        console.log(data);
+    });
+    //ES6 version
+    fetch('https://api.github.com/users/ctrimm')
+    .then( data => data.json() )
+    .then( data => {
+        console.timeEnd('fetching data');
+        console.log(data);
+    });
+
+    // Tabling data into console
+    console.table(dogs);
+
+</script>
+
+</body>
+</html>
