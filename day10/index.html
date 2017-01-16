@@ -63,6 +63,7 @@
         if (e.shiftKey && this.checked) {
             //magic happens here. loop thru each checkbox
             checkboxes.forEach(checkbox => {
+                console.log(checkbox.checked);
                 if(checkbox === this || checkbox === lastChecked) {
                     inbetween = !inbetween;
                 }
