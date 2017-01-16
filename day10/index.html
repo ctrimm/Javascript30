@@ -48,7 +48,32 @@
   </div>
 
 <script>
-    
+    let lastChecked;
+
+    // When holding Shift you can select a whole bunch of inputs
+    const checkboxes = document.querySelectorAll('.inbox input[type="checkbox"]');
+
+    checkboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('click', checkTheBox);
+    });
+
+    function checkTheBox(e) {
+        //check if shift is held & box is being checked & not unchecked
+        let inbetween = false;
+        if (e.shiftKey && this.checked) {
+            //magic happens here. loop thru each checkbox
+            checkboxes.forEach(checkbox => {
+                if(checkbox === this || checkbox === lastChecked) {
+                    inbetween = !inbetween;
+                }
+
+                if(inbetween) {
+                    checkbox.checked = true;
+                }
+            });
+        }
+        lastChecked = this;
+    }
 </script>
     
 </body>
