@@ -23,7 +23,6 @@
     </div>
 </div>
 
-
 <script>
 // Get the elements
 const videoPlayer = document.querySelector('.player');
@@ -71,15 +70,9 @@ video.addEventListener('play', updateButton);
 video.addEventListener('pause', updateButton);
 video.addEventListener('timeupdate', handleProgress);
 toggle.addEventListener('click', togglePlay);
-skipButtons.forEach(function(button) {
-    button.addEventListener('click', skipButton);
-});
-ranges.forEach(function(range) {
-    range.addEventListener('change', handleRanges);
-});
-ranges.forEach(function(range) {
-    range.addEventListener('mousemove', handleRanges);
-});
+skipButtons.forEach(button => button.addEventListener('click', skipButton));
+ranges.forEach(range => range.addEventListener('change', handleRanges));
+ranges.forEach(range => range.addEventListener('mousemove', handleRanges));
 
 //scrubbing the video
 let mouseDown = false;
