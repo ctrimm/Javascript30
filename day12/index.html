@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Day 12 - Konami Code &amp; Key Detection</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<em>PSSST!</em> Checkout the console.
+<h1 class="hidden" id="hiddenText">You got it!</h1>
+<script>
+const keysPressed = [];
+const code = 'hello';
+console.log("Type in 'hello' in the DOM...");
+
+const hiddenText = document.getElementById("hiddenText");
+console.log('hiddenText - ', hiddenText);
+
+window.addEventListener('keyup', function(e) {
+    keysPressed.push(e.key); //push last pressed key onto array
+    keysPressed.splice(-code.length - 1, keysPressed.length - code.length); //only store the length of the code in the keysPressed array
+    if(keysPressed.join('').includes(code)) {
+        console.log('winner winner, chicken dinner');
+        hiddenText.classList.add('gotit');
+    }
+});
+</script>
+
+</body>
+</html>
