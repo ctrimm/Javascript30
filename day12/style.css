@@ -1,0 +1,9 @@
+.hidden {
+    display: none;
+}
+
+.gotit {
+    display: flex;
+    color: green;
+    text-decoration: underline;
+}
