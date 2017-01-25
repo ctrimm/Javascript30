@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Day 16 - CSS Text Shadow Effect</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class='hero'>
+    <h1 contenteditable>HELLO, WORLD</h1>
+</div>
+
+<script>
+const hero = document.querySelector('.hero');
+const text = hero.querySelector('h1');
+const walk = 100; // 100px
+
+function shadow(e) {
+    const width = hero.offsetWidth;
+    const height = hero.offsetHeight;
+    // const { offsetWidth: width, offsetHeight: height } = hero; // this is ES6 destructuring
+    let x = e.offsetX;
+    let y = e.offsetY;
+    // let { offsetX: x, offsetY: y } = e; // again, ES6 destructuring
+    
+    // this helps deal with nested elements
+    if(this !== e.target) {
+        x = x + e.target.offsetLeft;
+        y = y + e.target.offsetTop;
+    }
+
+    const xWalk = (x / width * walk) - (walk / 2); // we want to handle +walk to -walk.
+    const yWalk = (y /height * walk) - (walk / 2);
+
+    text.style.textShadow = `${xWalk}px ${yWalk}px 0 rgba(0,255,255,0.25)`;
+}
+
+hero.addEventListener('mousemove', shadow);
+
+</script>
+
+</body>
+</html>
