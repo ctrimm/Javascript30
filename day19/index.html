@@ -3,12 +3,156 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title></title>
+    <title>Day 19 - Unreal Webcam Fun</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<div class="photobooth">
+    <div class="controls">
+    <button onClick="takePhoto()">Take Photo</button>
+        <div class="rgb">
+            <label for="rmin">Red Min:</label>
+            <input type="range" min=0 max=255 name="rmin">
+            <label for="rmax">Red Max:</label>
+            <input type="range" min=0 max=255 name="rmax">
+
+            <br>
+
+            <label for="gmin">Green Min:</label>
+            <input type="range" min=0 max=255 name="gmin">
+            <label for="gmax">Green Max:</label>
+            <input type="range" min=0 max=255 name="gmax">
+
+            <br>
+
+            <label for="bmin">Blue Min:</label>
+            <input type="range" min=0 max=255 name="bmin">
+            <label for="bmax">Blue Max:</label>
+            <input type="range" min=0 max=255 name="bmax">
+        </div>
+    </div>
+
+    <canvas class="photo"></canvas>
+    <video class="player"></video>
+    <div class="strip"></div>
+</div>
+
+<audio class="snap" src="http://wesbos.com/demos/photobooth/snap.mp3" hidden></audio>
+
 <script>
+const video = document.querySelector('.player');
+const canvas = document.querySelector('.photo');
+const ctx = canvas.getContext('2d');
+const strip = document.querySelector('.strip');
+const snap = document.querySelector('.snap');
+
+function getVideo() {
+    console.log('If trying to run on another machine, be sure to run `npm install` & `npm start` to get webserver running');
+
+    navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+        .then(function(localMediaStream) {
+            video.src = window.URL.createObjectURL(localMediaStream);
+            video.play();
+        })
+        .catch(function(err) {
+            console.error('Please Allow Us to Access Your Webcam');
+        });
+}
+
+function paintToCanvas() {
+    const width = video.videoWidth;
+    const height = video.videoHeight;
+
+    canvas.width = width;
+    canvas.height = height;
+
+    return setInterval(function() {
+        // drawImage accepts an image or a video element
+        ctx.drawImage(video, 0, 0, width, height);
+        
+        // since we are going to reassign pixels based on filters, take the pixels out
+        let pixels = ctx.getImageData(0, 0, width, height);
+
+        // DIFFERENT EFFECTS BELOW
+
+        // pixels = redEffect(pixels);
+        // pixels = rgbSplit(pixels);
+        pixels = greenScreen(pixels);
+
+        // this will stack images on top of each other for ~10 frames.
+        // causing a ghosting effect
+        ctx.globalAlpha = 0.1;
+
+        ctx.putImageData(pixels, 0, 0);
+
+    }, 16);
+}
+
+function takePhoto() {
+    // play shutter sound
+    snap.currentTime = 0;
+    snap.play();
+
+    // take snapshot
+    const data = canvas.toDataURL('image/jpeg');
+    const link = document.createElement('a');
+    link.href = data;
+    link.setAttribute('download', 'fileNameHere');
+    link.innerHTML = `<img src="${data}" alt="Alt Tags Go Here" />`;
+    strip.insertBefore(link, strip.firstChild);
+}
+
+function redEffect(pixels) {
+    // we increment by four because each pixel has 4 values - reg, green, blue, & alpha.
+    for(let i = 0; i < pixels.data.length; i += 4) {
+        pixels.data[i + 0] = pixels.data[i + 0] + 100; //red
+        pixels.data[i + 1] = pixels.data[i + 1] - 50; //green
+        pixels.data[i + 2] = pixels.data[i + 2] * 0.5; //green
+    }
+    return pixels;
+}
+
+function rgbSplit(pixels) {
+    //pulling apart different RGB & moving to either side.
+    for(let i = 0; i < pixels.data.length; i += 4) {
+        pixels.data[i - 150] = pixels.data[i + 0]; //red
+        pixels.data[i + 100] = pixels.data[i + 1]; //green
+        pixels.data[i - 550] = pixels.data[i + 2]; //green
+    }
+    return pixels;
+}
+
+function greenScreen(pixels) {
+    const levels = {};
+
+    document.querySelectorAll('.rgb input').forEach(function(input){
+        levels[input.name] = input.value;
+    });
+
+    for(i = 0; i < pixels.data.length; i += 4) {
+        red = pixels.data[i + 0];
+        green = pixels.data[i + 1];
+        blue = pixels.data[i + 2];
+        alpha = pixels.data[i + 3];
+
+        if(red >= levels.rmin
+            && green >- levels.gmin
+            && blue >= levels.bmin
+            && red <= levels.rmax
+            && green <= levels.gmax
+            && blue <= levels.bmax) {
+            // if the pixel occurs in this range, we will take out the pixel (it'll be transparent)
+            pixels.data[i + 3] = 0;
+        }
+    }
+
+    return pixels;
+}
+
+getVideo();
+
+video.addEventListener('canplay', paintToCanvas);
 
 </script>
 
