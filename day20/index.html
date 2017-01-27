@@ -8,9 +8,9 @@
 </head>
 <body>
 
-<div class="words" contenteditable>
+<div class="airportStatus" contenteditable>Try saying 'Airport status at LAX'</div>
 
-</div>
+<div class="words" contenteditable></div>
 
 <script>
     console.log('If trying to run on another machine, be sure to run `npm install` & `npm start` to get webserver running');
@@ -23,6 +23,7 @@
 
     let p = document.createElement('p');
     const words = document.querySelector('.words');
+    const airportStatus = document.querySelector('.airportStatus');
     words.appendChild(p);
 
     recognition.addEventListener('result', e => {
@@ -55,7 +56,11 @@
 
     function appendStatus(data) {
         console.log(data);
-        
+        if (data.delay == 'true') {
+            airportStatus.innerHTML = `There is currently a ${data.status.type} of ${data.status.avgDelay} due to ${data.status.reason} at the ${data.name} Airport.`;
+        } else {
+            airportStatus.innerHTML = `There are no known delays at the ${data.name} Airport.`;
+        }
     }
 
     recognition.addEventListener('end', recognition.start);

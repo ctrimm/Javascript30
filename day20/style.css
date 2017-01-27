@@ -9,7 +9,7 @@ body {
     font-size: 20px;
 }
 
-.words {
+.words, .airportStatus {
     max-width:500px;
     margin:50px auto;
     background:white;
