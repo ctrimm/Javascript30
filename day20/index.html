@@ -13,7 +13,54 @@
 </div>
 
 <script>
+    console.log('If trying to run on another machine, be sure to run `npm install` & `npm start` to get webserver running');
+    //SpeechRecognition is a global variable that lives in the browser on top of the window.
+    //one is for Chrome & the other is for Firefox.
+    window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
+    const recognition = new SpeechRecognition();
+    recognition.iterimResults = true; //this will populate speech while you talk.
+
+    let p = document.createElement('p');
+    const words = document.querySelector('.words');
+    words.appendChild(p);
+
+    recognition.addEventListener('result', e => {
+        const transcript = Array.from(e.results)
+          .map(result => result[0])
+          .map(result => result.transcript)
+          .join('');
+
+        p.textContent = transcript;
+        if (e.results[0].isFinal){
+            p = document.createElement('p');
+            words.appendChild(p);
+        }
+
+        //can also trigger events/call apis/etc...
+        if (transcript.includes('taco')) {
+            console.log('🌮🌮🌮🌮🌮')
+        }
+
+        if(transcript.includes('airport status at')) {
+            console.log(e.results[0]);
+            var s = transcript.split(" ");
+            const airport = s[s.length - 1];
+            console.log('airport - ', airport);
+            fetch(`http://services.faa.gov/airport/status/${airport}?format=application/json`)
+              .then(blob => blob.json())
+              .then(data => appendStatus(data));
+        }
+    });
+
+    function appendStatus(data) {
+        console.log(data);
+        
+    }
+
+    recognition.addEventListener('end', recognition.start);
+
+    recognition.start();
 </script>
 
 </body>
