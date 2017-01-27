@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Day 21 - Geolocatoin Based on Speedometer &amp; Compass</title>
+    <title>Day 21 - Geolocation Based on Speedometer &amp; Compass</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -17,6 +17,16 @@
 </h1>
 
 <script>
+    const arrow = document.querySelector('.arrow');
+    const speed = document.querySelector('.speed');
+
+    navigator.geolocation.watchPosition(function(data) {
+        speed.textContent = data.coords.speed + 'km/h';
+        arrow.style.transform = `rotate(${data.coords.heading}deg)`;
+    }, function(err) {
+        console.err(err);
+        alert("YOU HAVE TO ALLOW US TO SEE YOUR LOCATION");
+    });
 
 </script>
 
