@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Day 23 - Speech Synthesis</title>
+    <title>Day 23 - Speech Synthesis - Text to Voice</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -32,9 +32,53 @@
     const msg = new SpeechSynthesisUtterance();
     let voices = [];
     const voicesDropdown = document.querySelector('[name="voice"');
-    const options = document.querySelectorAll('[type="range", [name="text"]');
+    const options = document.querySelectorAll('[type="range"], [name="text"]');
     const speakButton = document.querySelector('#speak');
     const stopButton = document.querySelector('#stop');
+
+    //get our text from the box
+    msg.text = document.querySelector('[name="text"]').value;
+
+    //populate & load our voices
+    function populateVoices(){
+        voices = this.getVoices();
+        console.log(voices);
+        voicesDropdown.innerHTML = voices
+          .filter(voice => voice.lang.includes('en'))
+          .map(function(voice) {
+            return `<option value="${voice.name}">${voice.name} (${voice.lang})</option>`
+          }).join('');
+    }
+
+    //find the voice that lines up w/ the value
+    function setVoice() {
+        msg.voice = voices.find(voice => voice.name === this.value);
+        toggle();
+    }
+
+    //if we hit stop, stop the speech
+    function toggle(startOver = true) {
+        speechSynthesis.cancel();
+        if (startOver) {
+            speechSynthesis.speak(msg);
+        }
+    }
+
+    function setOption() {
+        console.log(this.name, this.value);
+        msg[this.name] = this.value;
+        toggle();
+    }
+
+    speechSynthesis.addEventListener('voiceschanged', populateVoices);
+    voicesDropdown.addEventListener('change', setVoice);
+    //work with the rate & pitch of the message
+    options.forEach(function(option){
+        option.addEventListener('change', setOption);
+    });
+    speakButton.addEventListener('click', toggle);
+    stopButton.addEventListener('click', function(){ toggle(false) });
+
 </script>
 
 </body>
