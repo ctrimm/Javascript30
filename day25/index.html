@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Day 25 - Event Capture, Propagation, Bubbling, &amp; Once</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bod">
+
+<div class="one">
+    <div class="two">
+        <div class="three">
+
+        </div>
+    </div>
+</div>
+
+<button></button>
+
+<script>
+const divs = document.querySelectorAll('div');
+
+function logText(e) {
+    console.log(this.classList.value);
+    // e.stopPropagation(); //stop bubbling the event up.
+}
+
+document.body.addEventListener('click', logText);
+
+divs.forEach(function(div) {
+    return div.addEventListener('click', logText, { capture: false, once: false });
+    // capture option goes from top-down on the divs from the capture down when true.
+    // once option will listen for a click and then unbind itself (same as div.removeEventListener...)
+    // ^^ Once is good for store checkouts so people cannot click 'Purchase' twice.
+});
+
+</script>
+
+</body>
+</html>
