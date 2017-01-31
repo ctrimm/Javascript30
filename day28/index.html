@@ -16,8 +16,27 @@
 </div>
 
 <script>
+const speed = document.querySelector('.speed');
+const bar = speed.querySelector('.speed-bar')
+const video = document.querySelector('.flex');
 
+speed.addEventListener('mousemove', function(e) {
+    const y = e.pageY - this.offsetTop;
+    const percent = y / this.offsetHeight;
+    const min = 0.4; //lowerbound
+    const max = 5; //upperbound
+    const height = Math.round(percent * 100) + '%';
+    const playbackRate = percent * (max - min) + min;
 
+    //set new styles & text
+    bar.style.height = height;
+    bar.textContent = playbackRate.toFixed(2) + 'x';
+
+    //set video playback rate
+    video.playbackRate = playbackRate;
+    //*NOTE - The playback audio stops when playbackRate < 0.5x and playbackRate > 4x
+    //This can also be broken up into a couple functions if you'd like for handling the mousemove.
+});
 
 </script>
 
