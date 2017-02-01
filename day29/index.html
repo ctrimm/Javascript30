@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Day 29 - Countdown Clock</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="timer">
+    <div class="timer__controls">
+        <button data-time="20" class="timer__button">20 Secs</button>
+        <button data-time="300" class="timer__button">Work 5</button>
+        <button data-time="900" class="timer__button">Quick 15</button>
+        <button data-time="1200" class="timer__button">Snack 20</button>
+        <button data-time="3600" class="timer__button">Lunch Break</button>
+        <form name="customForm" id="custom">
+            <input type="text" name="minutes" placeholder="Enter Minutes">
+        </form>
+    </div>
+    <div class="display">
+        <h1 class="display__time-left"></h1>
+        <p class="display__end-time"></p>
+    </div>
+</div>
+
+<script>
+let countdown; //global variable living in window
+const timerDisplay = document.querySelector('.display__time-left');
+const endTime = document.querySelector('.display__end-time');
+const buttons = document.querySelectorAll('[data-time]');
+
+function timer(seconds) {
+    //clear any existing timers
+    clearInterval(countdown);
+
+    const now = Date.now(); //get when the timer started
+    const then = now + seconds * 1000;
+
+    //start countdown immediately rather than waiting a second.
+    displayTimeLeft(seconds);
+    beBackAt(then);
+
+    countdown = setInterval(function() {
+        const secondsLeft = Math.round((then - Date.now()) / 1000); //this gets rid of funky decimals
+        //check if timer has expired
+        if(secondsLeft < 0) {
+            clearInterval(countdown);
+            return;
+        }
+        displayTimeLeft(secondsLeft);
+    }, 1000);
+}
+
+function displayTimeLeft(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    const display = `${mins}:${secs < 10 ? '0' : '' }${secs}`;
+    document.title = display + ' left on the timer';
+    timerDisplay.textContent = display;
+}
+
+//When will you return?
+function beBackAt(timestamp) {
+    const end = new Date(timestamp);
+    const hour = end.getHours();
+    const minutes = end.getMinutes();
+    endTime.textContent = `Be Back At ${hour > 12 ? hour - 12 : hour}:${minutes == 0 ? '00' : minutes}`;
+}
+
+function startTimer() {
+    const seconds = parseInt(this.dataset.time);
+    timer(seconds);
+}
+
+buttons.forEach(function (button) {
+    button.addEventListener('click', startTimer);
+});
+
+document.customForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const mins = this.minutes.value;
+    timer(mins*60);
+    this.reset();
+});
+
+</script>
+
+</body>
+</html>
