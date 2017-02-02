@@ -36,6 +36,58 @@
 const holes = document.querySelectorAll('.hole');
 const scoreBoard = document.querySelector('.score');
 const moles = document.querySelectorAll('.mole');
+let lastHole;
+let timeUp = false;
+let score = 0;
+
+function randomTime(min, max) {
+    return Math.round(Math.random() * (max-min) + min);
+}
+
+//This accepts an array of DOM Elements
+function randomMoleHole(holes) {
+    const index = Math.floor(Math.random() * holes.length);
+    const hole = holes[index];
+    if(hole === lastHole) {
+        return randomMoleHole(holes);
+    }
+
+    //track our last hole reference so the mole doesn't appear there twice.
+    lastHole = hole;
+    return hole;
+}
+
+function popUpMole() {
+    const time = randomTime(200, 1000);
+    const hole = randomMoleHole(holes);
+    hole.classList.add('up');
+    setTimeout(function() {
+        hole.classList.remove('up');
+        if(!timeUp) popUpMole();
+    }, time);
+}
+
+function startGame() {
+    scoreBoard.textContent = 0;
+    timeUp = false;
+    score = 0;
+    popUpMole();
+    setTimeout(function() {
+        timeUp = true;
+    }, 10000);
+}
+
+function bonked(e) {
+    console.log(e);
+    if(!e.isTrusted) return; //someone faking a click
+    score++;
+    this.classList.remove('up');
+    scoreBoard.textContent = score;
+}
+
+moles.forEach(function(mole) {
+    mole.addEventListener('click', bonked);
+});
 
 </script>
 
