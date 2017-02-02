@@ -78,7 +78,6 @@ function startGame() {
 }
 
 function bonked(e) {
-    console.log(e);
     if(!e.isTrusted) return; //someone faking a click
     score++;
     this.classList.remove('up');
